@@ -8,6 +8,43 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+
+  TextEditingController _controllerNome = TextEditingController();
+  TextEditingController _controllerEmail = TextEditingController();
+  TextEditingController _controllerSenha = TextEditingController();
+  String _mensagemErro = "";
+
+  _validarCampos (){
+    String nome = _controllerNome.text;
+    String email = _controllerEmail.text;
+    String senha = _controllerSenha.text;
+
+    if( nome.length > 3){
+      if( email.length > 3 && email.contains("@")){
+        if( senha.length > 6){
+          setState(() {
+            _mensagemErro = "";
+            _cadastrarUsuario();
+          });
+        }else{
+          setState(() {
+            _mensagemErro = "Sua senha precisa ter no minimo 7 Caracteres ";
+          });
+        }
+      }else{
+        setState(() {
+          _mensagemErro = "Preencha o Email Utilizando @";
+        });
+      }
+    }else{
+      setState(() {
+        _mensagemErro = "Nome precisa ter mais que 3 Caracteres";
+      });
+    }
+  }
+  _cadastrarUsuario(){
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +69,7 @@ class _RegisterState extends State<Register> {
                 ),
                 Padding(padding: EdgeInsets.only(bottom: 8),
                   child: TextField(
+                    controller: _controllerNome,
                     autofocus: true,
                     keyboardType: TextInputType.text,
                     style: TextStyle(fontSize: 20),
@@ -49,6 +87,7 @@ class _RegisterState extends State<Register> {
                 ),
                 Padding(padding: EdgeInsets.only(bottom: 8),
                   child: TextField(
+                    controller: _controllerEmail,
                     keyboardType: TextInputType.emailAddress,
                     style: TextStyle(fontSize: 20),
                     decoration: InputDecoration(
@@ -64,6 +103,8 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
                 TextField(
+                  controller: _controllerSenha,
+                  obscureText: true,
                   keyboardType: TextInputType.text,
                   style: TextStyle(fontSize: 20),
                   decoration: InputDecoration(
@@ -88,9 +129,17 @@ class _RegisterState extends State<Register> {
                         borderRadius: BorderRadius.circular(40)
                     ),
                     onPressed: (){
+                      _validarCampos();
                     },
                   ),
                 ),
+                Text(
+                  _mensagemErro,
+                  style: TextStyle(
+                    color: Colors.redAccent,
+                    fontSize: 15
+                  ),
+                )
               ],
             ),
           ),

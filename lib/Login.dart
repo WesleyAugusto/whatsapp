@@ -46,6 +46,7 @@ class _LoginState extends State<Login> {
                 ),
                 ),
                 TextField(
+                  obscureText: true,
                   keyboardType: TextInputType.text,
                   style: TextStyle(fontSize: 20),
                   decoration: InputDecoration(
